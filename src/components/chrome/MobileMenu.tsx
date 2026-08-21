@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import { useLocale } from "@/components/providers/LocaleProvider";
 import { Cta } from "@/components/ui/Cta";
-import { Instagram, Snapchat, WhatsApp } from "@/components/ui/Icons";
+import { Instagram, Snapchat, TikTok, WhatsApp } from "@/components/ui/Icons";
 import { Logo } from "@/components/ui/Logo";
 import { navigation, siteConfig, hasReservationLink, reservationHref, whatsappHref } from "@/config/site";
 import { useScrollLock } from "@/lib/hooks";
@@ -149,13 +149,23 @@ export function MobileMenu({
                 <Instagram className="h-4 w-4" />
                 {t.common.actions.instagram}
               </a>
+              <a
+                href={siteConfig.social.tiktokUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onClose}
+                className="flex min-h-12 items-center justify-center gap-2 rounded-full border border-cream/20 text-xs font-semibold tracking-[0.14em] uppercase"
+              >
+                <TikTok className="h-4 w-4" />
+                {t.common.actions.tiktok}
+              </a>
               {hasReservationLink ? (
                 <a
                   href={whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={onClose}
-                  className="flex min-h-12 items-center justify-center gap-2 rounded-full border border-cream/20 text-xs font-semibold tracking-[0.14em] uppercase"
+                  className="col-span-2 flex min-h-12 items-center justify-center gap-2 rounded-full border border-cream/20 text-xs font-semibold tracking-[0.14em] uppercase"
                 >
                   <WhatsApp className="h-4 w-4" />
                   {t.common.actions.whatsapp}
@@ -166,13 +176,13 @@ export function MobileMenu({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={onClose}
-                  className="flex min-h-12 items-center justify-center gap-2 rounded-full border border-cream/20 text-xs font-semibold tracking-[0.14em] uppercase"
+                  className="col-span-2 flex min-h-12 items-center justify-center gap-2 rounded-full border border-cream/20 text-xs font-semibold tracking-[0.14em] uppercase"
                 >
                   <Snapchat className="h-4 w-4" />
                   {t.common.actions.snapchat}
                 </a>
               ) : (
-                <span className="flex min-h-12 items-center justify-center gap-2 rounded-full border border-cream/10 text-xs font-semibold tracking-[0.14em] text-cream/40 uppercase">
+                <span className="col-span-2 flex min-h-12 items-center justify-center gap-2 rounded-full border border-cream/10 text-xs font-semibold tracking-[0.14em] text-cream/40 uppercase">
                   <Snapchat className="h-4 w-4" />
                   {siteConfig.social.snapchatHandle}
                 </span>

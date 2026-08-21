@@ -2,7 +2,7 @@
 
 import { useLocale } from "@/components/providers/LocaleProvider";
 import { Cta } from "@/components/ui/Cta";
-import { ArrowUpRight, Instagram, Snapchat } from "@/components/ui/Icons";
+import { ArrowUpRight, Instagram, Snapchat, TikTok } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/config/site";
@@ -57,7 +57,32 @@ export function Social() {
                 </a>
               </Reveal>
 
-              <Reveal delay={0.08}>
+              <Reveal delay={0.06}>
+                <a
+                  href={social.tiktokUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor={t.common.cursor.open}
+                  className="group flex items-center justify-between gap-4 rounded-2xl border border-[color:var(--hairline)] p-5 transition-colors duration-500 hover:border-[color:var(--accent)]"
+                >
+                  <span className="flex items-center gap-4">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-night text-cream">
+                      <TikTok className="h-5 w-5" />
+                    </span>
+                    <span>
+                      <span className="t-label block text-[color:var(--fg-faint)]">
+                        {t.common.actions.tiktok}
+                      </span>
+                      <span className="font-display block truncate text-[clamp(1.1rem,2.4vw,1.5rem)] text-[color:var(--fg)] normal-case">
+                        {social.tiktokHandle}
+                      </span>
+                    </span>
+                  </span>
+                  <ArrowUpRight className="h-4 w-4 shrink-0 text-[color:var(--fg-soft)] transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </a>
+              </Reveal>
+
+              <Reveal delay={0.12}>
                 {social.snapchatUrl ? (
                   <a
                     href={social.snapchatUrl}
@@ -79,16 +104,28 @@ export function Social() {
                 )}
               </Reveal>
 
-              <Reveal delay={0.16}>
-                <Cta
-                  href={social.instagramUrl}
-                  external
-                  className="mt-2 w-full"
-                  cursorLabel={t.common.cursor.open}
-                  icon={<ArrowUpRight className="h-3.5 w-3.5" />}
-                >
-                  {t.common.actions.followInstagram}
-                </Cta>
+              <Reveal delay={0.18}>
+                <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+                  <Cta
+                    href={social.instagramUrl}
+                    external
+                    className="w-full"
+                    cursorLabel={t.common.cursor.open}
+                    icon={<Instagram className="h-3.5 w-3.5" />}
+                  >
+                    {t.common.actions.followInstagram}
+                  </Cta>
+                  <Cta
+                    href={social.tiktokUrl}
+                    external
+                    variant="ghost"
+                    className="w-full"
+                    cursorLabel={t.common.cursor.open}
+                    icon={<TikTok className="h-3.5 w-3.5" />}
+                  >
+                    {t.common.actions.followTikTok}
+                  </Cta>
+                </div>
               </Reveal>
             </div>
           </div>

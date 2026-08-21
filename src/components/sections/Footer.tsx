@@ -3,7 +3,7 @@
 import { LanguageSwitcher } from "@/components/chrome/LanguageSwitcher";
 import { useLocale } from "@/components/providers/LocaleProvider";
 import { Cta } from "@/components/ui/Cta";
-import { ArrowUpRight, Instagram, Snapchat, WhatsApp } from "@/components/ui/Icons";
+import { ArrowUpRight, Instagram, Snapchat, TikTok, WhatsApp } from "@/components/ui/Icons";
 import { Logo } from "@/components/ui/Logo";
 import { hasReservationLink, navigation, reservationHref, siteConfig, whatsappHref } from "@/config/site";
 
@@ -64,6 +64,18 @@ export function Footer() {
                 >
                   <Instagram className="h-4 w-4" />
                   <span className="t-body">{siteConfig.social.instagramHandle}</span>
+                  <ArrowUpRight className="h-3 w-3 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href={siteConfig.social.tiktokUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-3 text-[color:var(--fg-soft)] transition-colors duration-300 hover:text-[color:var(--fg)]"
+                >
+                  <TikTok className="h-4 w-4" />
+                  <span className="t-body">{siteConfig.social.tiktokHandle}</span>
                   <ArrowUpRight className="h-3 w-3 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
               </li>

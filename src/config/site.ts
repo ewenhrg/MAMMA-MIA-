@@ -23,6 +23,10 @@ export const siteConfig = {
   social: {
     instagramHandle: "@mammamiahurghada",
     instagramUrl: "https://www.instagram.com/mammamiahurghada/",
+    tiktokHandle: "@mammamiahurghada",
+    tiktokUrl:
+      env(process.env.NEXT_PUBLIC_TIKTOK_URL) ||
+      "https://www.tiktok.com/@mammamiahurghada",
     snapchatHandle: "Mammamia_hrg",
     /** No official Snapchat URL was provided — configurable. */
     snapchatUrl: env(process.env.NEXT_PUBLIC_SNAPCHAT_URL),

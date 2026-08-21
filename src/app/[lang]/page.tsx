@@ -33,7 +33,11 @@ function StructuredData({ lang }: { lang: "en" | "fr" }) {
       addressLocality: siteConfig.city,
       addressCountry: "EG",
     },
-    sameAs: [siteConfig.social.instagramUrl, siteConfig.social.snapchatUrl].filter(Boolean),
+    sameAs: [
+      siteConfig.social.instagramUrl,
+      siteConfig.social.tiktokUrl,
+      siteConfig.social.snapchatUrl,
+    ].filter(Boolean),
     amenityFeature: [
       { "@type": "LocationFeatureSpecification", name: "Private beach", value: true },
       { "@type": "LocationFeatureSpecification", name: "Shisha", value: true },

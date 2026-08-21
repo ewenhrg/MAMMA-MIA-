@@ -3,7 +3,7 @@
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useState } from "react";
 import { useLocale } from "@/components/providers/LocaleProvider";
-import { Instagram, WhatsApp } from "@/components/ui/Icons";
+import { Instagram, TikTok, WhatsApp } from "@/components/ui/Icons";
 import { hasReservationLink, reservationHref, siteConfig, whatsappHref } from "@/config/site";
 
 /**
@@ -42,6 +42,17 @@ export function MobileActionBar() {
           className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/12"
         >
           <Instagram className="h-4.5 w-4.5" />
+        </a>
+
+        <a
+          href={siteConfig.social.tiktokUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={t.common.actions.followTikTok}
+          tabIndex={shown ? 0 : -1}
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/12"
+        >
+          <TikTok className="h-4.5 w-4.5" />
         </a>
 
         {hasReservationLink ? (

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useLocale } from "@/components/providers/LocaleProvider";
 import { Cta } from "@/components/ui/Cta";
-import { ArrowUpRight, Instagram, WhatsApp } from "@/components/ui/Icons";
+import { ArrowUpRight, Instagram, TikTok, WhatsApp } from "@/components/ui/Icons";
 import { Logo } from "@/components/ui/Logo";
 import { hasReservationLink, navigation, reservationHref, siteConfig, whatsappHref } from "@/config/site";
 import { useMediaQuery } from "@/lib/hooks";
@@ -136,6 +136,17 @@ export function Navbar() {
               className="hidden h-9 w-9 place-items-center rounded-full border border-[color:var(--hairline)] text-[color:var(--fg-soft)] transition-colors duration-300 hover:text-[color:var(--fg)] lg:grid"
             >
               <Instagram className="h-4 w-4" />
+            </a>
+
+            <a
+              href={siteConfig.social.tiktokUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={t.common.actions.followTikTok}
+              data-cursor={t.common.cursor.open}
+              className="hidden h-9 w-9 place-items-center rounded-full border border-[color:var(--hairline)] text-[color:var(--fg-soft)] transition-colors duration-300 hover:text-[color:var(--fg)] lg:grid"
+            >
+              <TikTok className="h-4 w-4" />
             </a>
 
             {hasReservationLink ? (

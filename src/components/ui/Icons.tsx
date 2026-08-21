@@ -52,6 +52,13 @@ export const Snapchat = ({ className }: IconProps) => (
   </svg>
 );
 
+export const TikTok = ({ className }: IconProps) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...base}>
+    <path d="M14.2 3.5v9.4a3.6 3.6 0 1 1-2.5-3.4V6.9A6.1 6.1 0 0 0 16.5 9V5.8a5 5 0 0 1-2.3-.8Z" />
+    <path d="M16.5 5.8A5 5 0 0 0 19.5 5v3a7.4 7.4 0 0 1-3 .6" />
+  </svg>
+);
+
 export const WhatsApp = ({ className }: IconProps) => (
   <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...base}>
     <path d="M3.5 20.5 5 16.4A8.2 8.2 0 1 1 8 19.3l-4.5 1.2Z" />
