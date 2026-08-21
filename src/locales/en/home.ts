@@ -156,7 +156,9 @@ export const home = {
     title: ["On the Red Sea,", "in *Hurghada.*"],
     lead: "Come for the afternoon, stay for the night.",
     addressLabel: "Address",
-    addressPending: "Full address available on request — message us and we'll send you the pin.",
+    addressPending:
+      "Right in the centre of Hurghada, near the marina.",
+    mapLabel: "Map of Mamma Mia Restaurant & Lounge in Hurghada",
     hoursLabel: "Opening hours",
     hoursPending: "Ask us for today's hours on Instagram or WhatsApp.",
     contactLabel: "Reservations",

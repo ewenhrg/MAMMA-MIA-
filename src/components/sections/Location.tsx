@@ -3,8 +3,6 @@
 import { useLocale } from "@/components/providers/LocaleProvider";
 import { Cta } from "@/components/ui/Cta";
 import { Pin, WhatsApp } from "@/components/ui/Icons";
-import { Media } from "@/components/ui/Media";
-import { ParallaxFrame } from "@/components/ui/ParallaxFrame";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { hasReservationLink, reservationHref, siteConfig, whatsappHref } from "@/config/site";
@@ -12,9 +10,8 @@ import { hasReservationLink, reservationHref, siteConfig, whatsappHref } from "@
 /**
  * Contact and location.
  *
- * The exact address, coordinates and hours were not provided, so nothing is
- * guessed. Phone / WhatsApp is wired to +201208185554. Other fields stay
- * configurable and the UI hides them until `NEXT_PUBLIC_*` values are filled in.
+ * Address tip and Google Maps pin come from the venue. Hours stay ask-us until
+ * confirmed. Phone / WhatsApp is wired to +201208185554.
  */
 export function Location() {
   const { t, lang } = useLocale();
@@ -24,7 +21,7 @@ export function Location() {
   return (
     <section id="contact" className="section">
       <div className="shell grid gap-10 lg:grid-cols-12 lg:gap-14">
-        <div className="lg:col-span-6">
+        <div className="lg:col-span-5">
           <SectionHeading
             eyebrow={location.eyebrow}
             lines={location.title}
@@ -65,7 +62,10 @@ export function Location() {
                   {contact.phone || contact.email ? (
                     <span className="flex flex-col gap-1">
                       {contact.phone && (
-                        <a href={`tel:${contact.phone}`} className="link-underline inline-flex min-h-11 w-fit items-center">
+                        <a
+                          href={`tel:${contact.phone}`}
+                          className="link-underline inline-flex min-h-11 w-fit items-center"
+                        >
                           {contact.phoneDisplay}
                         </a>
                       )}
@@ -118,20 +118,37 @@ export function Location() {
                 >
                   {t.common.actions.openMaps}
                 </Cta>
-              ) : (
-                <span className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-dashed border-[color:var(--hairline)] px-5 text-[0.7rem] font-semibold tracking-[0.14em] text-[color:var(--fg-faint)] uppercase">
-                  <Pin className="h-4 w-4" />
-                  {t.common.states.comingSoon}
-                </span>
-              )}
+              ) : null}
             </div>
           </Reveal>
         </div>
 
-        <div className="lg:col-span-6">
-          <ParallaxFrame className="aspect-4/5 w-full sm:aspect-4/3 lg:aspect-square">
-            <Media slot="location" lang={lang} sizes="(max-width: 1024px) 100vw, 48vw" />
-          </ParallaxFrame>
+        <div className="lg:col-span-7">
+          <Reveal delay={0.1}>
+            <div className="frame relative aspect-[4/3] w-full sm:aspect-[16/11]">
+              <iframe
+                title={location.mapLabel}
+                src={contact.googleMapsEmbedUrl}
+                className="absolute inset-0 h-full w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+              <a
+                href={contact.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor={t.common.cursor.open}
+                className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-night/80 px-3.5 py-2.5 text-[0.65rem] font-semibold tracking-[0.14em] text-cream uppercase backdrop-blur-sm transition-colors duration-300 hover:bg-night sm:bottom-5 sm:left-5"
+              >
+                <Pin className="h-3.5 w-3.5" />
+                {t.common.actions.openMaps}
+              </a>
+            </div>
+            <p className="t-body mt-4 max-w-[42ch] text-[color:var(--fg-soft)]">
+              {location.addressPending}
+            </p>
+          </Reveal>
         </div>
       </div>
     </section>

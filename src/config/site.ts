@@ -35,7 +35,13 @@ export const siteConfig = {
   contact: {
     whatsappUrl:
       env(process.env.NEXT_PUBLIC_WHATSAPP_URL) || "https://wa.me/201208185554",
-    googleMapsUrl: env(process.env.NEXT_PUBLIC_GOOGLE_MAPS_URL),
+    googleMapsUrl:
+      env(process.env.NEXT_PUBLIC_GOOGLE_MAPS_URL) ||
+      "https://maps.app.goo.gl/BmBzNsxaaLhzk6VK6",
+    /** Embed used by the on-page map (lat/lng of the Google listing). */
+    googleMapsEmbedUrl:
+      env(process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL) ||
+      "https://www.google.com/maps?q=27.2218919,33.8426733&z=16&output=embed",
     email: env(process.env.NEXT_PUBLIC_CONTACT_EMAIL),
     phone: env(process.env.NEXT_PUBLIC_CONTACT_PHONE) || "+201208185554",
     phoneDisplay: "+20 120 818 5554",

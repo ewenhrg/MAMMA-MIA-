@@ -133,7 +133,7 @@ export function Navbar() {
               rel="noopener noreferrer"
               aria-label={t.common.actions.followInstagram}
               data-cursor={t.common.cursor.open}
-              className="hidden h-9 w-9 place-items-center rounded-full border border-[color:var(--hairline)] text-[color:var(--fg-soft)] transition-colors duration-300 hover:text-[color:var(--fg)] lg:grid"
+              className="hidden h-9 w-9 place-items-center rounded-full border border-[color:var(--hairline)] text-[color:var(--fg-soft)] transition-colors duration-300 hover:text-[color:var(--fg)] xl:grid"
             >
               <Instagram className="h-4 w-4" />
             </a>
@@ -144,7 +144,7 @@ export function Navbar() {
               rel="noopener noreferrer"
               aria-label={t.common.actions.followTikTok}
               data-cursor={t.common.cursor.open}
-              className="hidden h-9 w-9 place-items-center rounded-full border border-[color:var(--hairline)] text-[color:var(--fg-soft)] transition-colors duration-300 hover:text-[color:var(--fg)] lg:grid"
+              className="hidden h-9 w-9 place-items-center rounded-full border border-[color:var(--hairline)] text-[color:var(--fg-soft)] transition-colors duration-300 hover:text-[color:var(--fg)] xl:grid"
             >
               <TikTok className="h-4 w-4" />
             </a>
@@ -156,7 +156,7 @@ export function Navbar() {
                 rel="noopener noreferrer"
                 aria-label={t.common.actions.whatsapp}
                 data-cursor={t.common.cursor.open}
-                className="hidden h-9 w-9 place-items-center rounded-full border border-[color:var(--hairline)] text-[color:var(--fg-soft)] transition-colors duration-300 hover:text-[color:var(--fg)] lg:grid"
+                className="hidden h-9 w-9 place-items-center rounded-full border border-[color:var(--hairline)] text-[color:var(--fg-soft)] transition-colors duration-300 hover:text-[color:var(--fg)] xl:grid"
               >
                 <WhatsApp className="h-4 w-4" />
               </a>

@@ -160,7 +160,8 @@ export const home: Translated<Home> = {
     lead: "Venez pour l'après-midi, restez pour la soirée.",
     addressLabel: "Adresse",
     addressPending:
-      "Adresse complète communiquée sur demande — écrivez-nous et nous vous envoyons le point exact.",
+      "En plein centre-ville de Hurghada, proche de la marina.",
+    mapLabel: "Carte de Mamma Mia Restaurant & Lounge à Hurghada",
     hoursLabel: "Horaires",
     hoursPending: "Demandez-nous les horaires du jour sur Instagram ou WhatsApp.",
     contactLabel: "Réservations",
