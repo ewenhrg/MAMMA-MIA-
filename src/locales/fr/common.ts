@@ -1,0 +1,80 @@
+import type { Common } from "../en/common";
+import type { Translated } from "../types";
+
+export const common: Translated<Common> = {
+  nav: {
+    home: "Accueil",
+    experience: "L'expérience",
+    food: "Cuisine",
+    drinks: "Boissons",
+    events: "Événements",
+    gallery: "Galerie",
+    contact: "Contact",
+  },
+  actions: {
+    book: "Réserver une table",
+    bookShort: "Réserver",
+    discover: "Découvrir Mamma Mia",
+    followInstagram: "Nous suivre sur Instagram",
+    followSnapchat: "Nous suivre sur Snapchat",
+    follow: "Nous suivre",
+    viewGallery: "Voir la galerie",
+    openMaps: "Ouvrir dans Google Maps",
+    whatsapp: "WhatsApp",
+    instagram: "Instagram",
+    snapchat: "Snapchat",
+    close: "Fermer",
+    previous: "Précédent",
+    next: "Suivant",
+    menu: "Menu",
+    openMenu: "Ouvrir le menu",
+    closeMenu: "Fermer le menu",
+    scroll: "Défiler",
+  },
+  chapters: {
+    day: "Jour",
+    sunset: "Coucher de soleil",
+    night: "Nuit",
+  },
+  language: {
+    label: "Langue",
+    en: "Anglais",
+    fr: "Français",
+    switchTo: "Passer en anglais",
+  },
+  states: {
+    comingSoon: "Bientôt disponible",
+    noEvents: "Aucun événement annoncé pour le moment",
+    noEventsBody:
+      "Nos prochaines soirées sont en préparation. Suivez-nous sur Instagram pour être les premiers informés.",
+    photosComingSoon: "Photos bientôt disponibles",
+    photosComingSoonBody:
+      "Notre galerie est en cours de shooting. En attendant, les images les plus fraîches de Mamma Mia sont sur notre Instagram.",
+    linkComingSoon: "Ce lien sera disponible très bientôt.",
+  },
+  a11y: {
+    logo: "Logo Mamma Mia Restaurant & Lounge",
+    skipToContent: "Aller au contenu principal",
+    mainNavigation: "Navigation principale",
+    footerNavigation: "Navigation du pied de page",
+    languageSwitcher: "Sélecteur de langue",
+    loading: "Chargement de Mamma Mia",
+    decorativeScene: "Illustration d'ambiance de plage",
+    gallerySlide: "Image de la galerie",
+    lightbox: "Visionneuse de la galerie",
+    progress: "Progression de la journée",
+  },
+  cursor: {
+    view: "Voir",
+    open: "Ouvrir",
+    explore: "Explorer",
+    drag: "Glisser",
+  },
+  footer: {
+    rights: "Tous droits réservés.",
+    credit: "Beach club, restaurant et lounge à Hurghada, Égypte.",
+    explore: "Explorer",
+    connect: "Nous suivre",
+    visit: "Nous trouver",
+  },
+};

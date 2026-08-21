@@ -1,0 +1,824 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   MAMMA MIA — DESIGN TOKENS
+   Palette derived from the official badge: red-to-gold sunset, cream script,
+   sand, Red Sea blue and the deep black of the silhouettes.
+   ========================================================================== */
+
+@theme {
+  --color-sunset: #ef4b22;
+  --color-ember: #f2653c;
+  --color-orange: #f58220;
+  --color-gold: #f9b233;
+  --color-honey: #ffd27d;
+
+  --color-cream: #fbf4e6;
+  --color-sand: #e4c79b;
+  --color-sand-deep: #c99f63;
+
+  --color-ocean: #159fd9;
+  --color-ocean-deep: #0b6e9e;
+  --color-lagoon: #58d0dd;
+
+  --color-night: #060b12;
+  --color-night-2: #0c1622;
+  --color-night-3: #142334;
+  --color-ink: #0a0a0a;
+
+  --font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-accent: var(--font-instrument), "Instrument Serif", Georgia, serif;
+  --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --radius-card: 1.5rem;
+  --radius-pill: 999px;
+
+  --breakpoint-xs: 26rem;
+}
+
+/* --------------------------------------------------------------------------
+   Journey variables. `--journey` runs 0 (morning) → 1 (deep night) and is
+   written by the scroll engine; `data-mood` gives each chapter a readable
+   foreground palette that cross-fades.
+   -------------------------------------------------------------------------- */
+
+@layer base {
+  :root {
+    --journey: 0;
+    --sky-day: 1;
+    --sky-sunset: 0;
+    --sky-night: 0;
+
+    --fg: #10202c;
+    --fg-soft: #3d5566;
+    --fg-faint: #6b8496;
+    --surface: #f4efe4;
+    --surface-raised: rgba(255, 255, 255, 0.62);
+    --hairline: rgba(16, 32, 44, 0.16);
+    --accent: #d13c12;
+    --shell: #eaf4f8;
+
+    --nav-h: 4.5rem;
+    --gutter: clamp(1.05rem, 5vw, 5rem);
+    --section-y: clamp(3.75rem, 11vh, 10rem);
+    --gutter-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+    --gutter-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+
+    --safe-t: env(safe-area-inset-top, 0px);
+    --safe-b: env(safe-area-inset-bottom, 0px);
+    --safe-l: env(safe-area-inset-left, 0px);
+    --safe-r: env(safe-area-inset-right, 0px);
+
+    --mood-ms: 0ms;
+
+    /* Ambient elevation: built from --fg/--accent so shadows read as soft
+       shadows in daylight and as a gentle glow once the palette flips to
+       night — no separate dark-mode shadow palette needed. */
+    --shadow-card:
+      0 1px 1px color-mix(in oklab, var(--fg), transparent 90%),
+      0 24px 56px -28px color-mix(in oklab, var(--fg), transparent 74%);
+    --shadow-card-hover:
+      0 1px 1px color-mix(in oklab, var(--fg), transparent 88%),
+      0 32px 72px -24px color-mix(in oklab, var(--accent), transparent 58%);
+  }
+
+  :root[data-mood="sunset"] {
+    --fg: #2b1206;
+    --fg-soft: #6b3418;
+    --fg-faint: #8f5730;
+    --surface: #fdf0dc;
+    --surface-raised: rgba(255, 246, 232, 0.6);
+    --hairline: rgba(60, 22, 6, 0.2);
+    --accent: #b52f0c;
+    --shell: #fbe3c4;
+  }
+
+  :root[data-mood="night"] {
+    --fg: #f6efe2;
+    --fg-soft: #bcb3a4;
+    --fg-faint: #8b8578;
+    --surface: #0b1420;
+    --surface-raised: rgba(255, 255, 255, 0.06);
+    --hairline: rgba(246, 239, 226, 0.18);
+    --accent: #f9b233;
+    --shell: #060b12;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :root {
+      --mood-ms: 900ms;
+    }
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--shell);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background-color var(--mood-ms) var(--ease-in-out-soft),
+      color var(--mood-ms) var(--ease-in-out-soft);
+  }
+
+  body.is-locked {
+    overflow: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote,
+  dl,
+  dd {
+    margin: 0;
+  }
+
+  ul,
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    touch-action: manipulation;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  section[id] {
+    scroll-margin-top: calc(var(--safe-t) + var(--nav-h) + 0.4rem);
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  ::selection {
+    background: var(--color-sunset);
+    color: var(--color-cream);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* ==========================================================================
+   TYPOGRAPHY + COMPONENTS
+   Everything below lives in the `components` layer so plain Tailwind utilities
+   (`hidden`, `mt-6`, `text-cream`…) always win when they are applied on top.
+   ========================================================================== */
+
+@layer components {
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.94;
+    text-transform: uppercase;
+  }
+
+  .font-accent {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: -0.01em;
+  }
+
+  .t-display {
+    font-size: clamp(2.15rem, 11vw, 7.5rem);
+  }
+
+  .t-h1 {
+    font-size: clamp(1.85rem, 6.4vw, 4.4rem);
+  }
+
+  .t-h2 {
+    font-size: clamp(1.6rem, 4.6vw, 3.25rem);
+  }
+
+  .t-h3 {
+    font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+  }
+
+  .t-lead {
+    font-size: clamp(1.0625rem, 1.8vw, 1.45rem);
+    line-height: 1.45;
+    letter-spacing: -0.011em;
+  }
+
+  .t-body {
+    font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+    line-height: 1.7;
+  }
+
+  .t-eyebrow {
+    font-family: var(--font-body);
+    font-size: clamp(0.6875rem, 0.8vw, 0.8125rem);
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .t-label {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .shell {
+    width: 100%;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding-left: var(--gutter-left);
+    padding-right: var(--gutter-right);
+  }
+
+  .section {
+    position: relative;
+    padding-block: var(--section-y);
+  }
+
+  /* ---------- Atmosphere ---------- */
+
+  .sky {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .sky__layer {
+    position: absolute;
+    inset: -10%;
+    will-change: opacity;
+  }
+
+  .sky__layer--day {
+    opacity: var(--sky-day);
+    background:
+      radial-gradient(120% 85% at 78% 8%, #fff6d8 0%, transparent 46%),
+      linear-gradient(180deg, #8fd8f2 0%, #bfe9f6 34%, #e9f3ee 58%, #f0e2c4 78%, #e6cfa4 100%);
+  }
+
+  .sky__layer--sunset {
+    opacity: var(--sky-sunset);
+    background:
+      radial-gradient(90% 60% at 70% 52%, rgba(255, 214, 128, 0.95) 0%, transparent 55%),
+      linear-gradient(180deg, #3f2a52 0%, #a8425a 26%, #ef6a2b 52%, #f9a53a 72%, #d98a4e 100%);
+  }
+
+  .sky__layer--night {
+    opacity: var(--sky-night);
+    background:
+      radial-gradient(70% 45% at 50% 100%, rgba(249, 178, 51, 0.18) 0%, transparent 62%),
+      linear-gradient(180deg, #03060c 0%, #071120 42%, #0b1c2c 72%, #12222f 100%);
+  }
+
+  .sky__sun {
+    position: absolute;
+    left: 50%;
+    top: calc(4% + var(--journey) * 72%);
+    width: clamp(7rem, 18vw, 15rem);
+    aspect-ratio: 1;
+    margin-left: clamp(-3rem, calc(10vw - 24vw * var(--journey)), 16rem);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, #fffbe8, var(--color-sunset) calc(var(--journey) * 88%)) 0%,
+      color-mix(in oklab, #ffe6a3, var(--color-sunset) calc(var(--journey) * 92%)) 54%,
+      transparent 68%
+    );
+    /* Fully set once night falls — the moon in the night scenes takes over. */
+    opacity: calc(0.95 * (1 - var(--sky-night)));
+    will-change: top, opacity, transform;
+  }
+
+  /* A slow breathing pulse so the fixed sky reads as alive even at rest,
+     independent of the scroll-driven top/opacity above (transform-only, so
+     nothing here fights the journey engine's per-frame values). */
+  @media (prefers-reduced-motion: no-preference) {
+    .sky__sun {
+      animation: sun-breathe 9s var(--ease-in-out-soft) infinite;
+    }
+  }
+
+  @keyframes sun-breathe {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.055);
+    }
+  }
+
+  .sky__stars {
+    position: absolute;
+    inset: 0;
+    opacity: var(--sky-night);
+    background-image:
+      radial-gradient(1.4px 1.4px at 12% 18%, rgba(255, 255, 255, 0.9), transparent),
+      radial-gradient(1.2px 1.2px at 28% 9%, rgba(255, 255, 255, 0.7), transparent),
+      radial-gradient(1.6px 1.6px at 44% 24%, rgba(255, 255, 255, 0.85), transparent),
+      radial-gradient(1.1px 1.1px at 62% 12%, rgba(255, 255, 255, 0.6), transparent),
+      radial-gradient(1.5px 1.5px at 76% 27%, rgba(255, 255, 255, 0.8), transparent),
+      radial-gradient(1.2px 1.2px at 88% 15%, rgba(255, 255, 255, 0.65), transparent),
+      radial-gradient(1.3px 1.3px at 34% 38%, rgba(255, 255, 255, 0.5), transparent),
+      radial-gradient(1.1px 1.1px at 8% 41%, rgba(255, 255, 255, 0.45), transparent),
+      radial-gradient(1.4px 1.4px at 68% 44%, rgba(255, 255, 255, 0.55), transparent);
+  }
+
+  /* Two soft colour pools that drift slowly behind every section, so the
+     page reads as alive even when nobody is scrolling or hovering. Pure
+     ambience: low opacity, heavily blurred, never competing with content. */
+  .sky__glow-a,
+  .sky__glow-b {
+    position: absolute;
+    width: min(42vw, 34rem);
+    height: min(42vw, 34rem);
+    border-radius: 50%;
+    filter: blur(70px);
+    pointer-events: none;
+  }
+
+  .sky__glow-a {
+    left: -10%;
+    top: 58%;
+    opacity: 0.22;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--color-ocean), transparent 40%),
+      transparent 70%
+    );
+  }
+
+  .sky__glow-b {
+    right: -12%;
+    top: 12%;
+    opacity: 0.18;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--color-honey), transparent 35%),
+      transparent 70%
+    );
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sky__glow-a {
+      animation: drift-a 26s var(--ease-in-out-soft) infinite;
+    }
+
+    .sky__glow-b {
+      animation: drift-b 32s var(--ease-in-out-soft) infinite;
+    }
+  }
+
+  @keyframes drift-a {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(7vw, -5vh) scale(1.15);
+    }
+  }
+
+  @keyframes drift-b {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-6vw, 6vh) scale(0.9);
+    }
+  }
+
+  .sky__sea {
+    position: absolute;
+    inset-inline: -5%;
+    bottom: -2%;
+    height: 30%;
+    opacity: calc(0.35 + 0.65 * var(--sky-day));
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--color-ocean), var(--color-night) calc(var(--journey) * 82%)) 0%,
+      color-mix(in oklab, var(--color-ocean-deep), var(--color-night) calc(var(--journey) * 88%)) 100%
+    );
+    mask-image: linear-gradient(180deg, transparent 0%, #000 24%, #000 100%);
+  }
+
+  .grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.12;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- Buttons ---------- */
+
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    min-height: 3rem;
+    padding: 0.95rem 1.6rem;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    isolation: isolate;
+    overflow: hidden;
+    max-width: 100%;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      translate 0.4s var(--ease-out-expo),
+      transform 0.4s var(--ease-out-expo),
+      border-color 0.4s var(--ease-out-expo),
+      color 0.4s var(--ease-out-expo);
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn__label {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .btn__label svg {
+    transition: translate 0.4s var(--ease-out-expo);
+  }
+
+  .btn__fill {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    transform: translateY(101%);
+    transition: transform 0.55s var(--ease-out-expo);
+  }
+
+  .btn--primary {
+    color: var(--color-cream);
+    background: linear-gradient(105deg, var(--color-sunset), var(--color-gold));
+    box-shadow: 0 10px 30px -12px rgba(239, 75, 34, 0.7);
+  }
+
+  .btn--primary .btn__fill {
+    background: var(--color-ink);
+  }
+
+  .btn--ghost {
+    color: var(--fg);
+    border: 1px solid var(--hairline);
+    backdrop-filter: blur(10px);
+    background: var(--surface-raised);
+  }
+
+  .btn--ghost .btn__fill {
+    background: var(--fg);
+  }
+
+  @media (hover: hover) {
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn:hover .btn__fill {
+      transform: translateY(0);
+    }
+
+    .btn:hover .btn__label svg {
+      translate: 3px -3px;
+    }
+
+    .btn--primary:hover {
+      box-shadow: 0 18px 44px -16px rgba(239, 75, 34, 0.85);
+    }
+
+    .btn--ghost:hover {
+      color: var(--shell);
+      border-color: transparent;
+    }
+  }
+
+  /* Reserved for the one or two "hero moment" CTAs per page (Hero, FinalCta)
+     — a quiet pulse that says "click me" without turning every button on the
+     site into a blinking light. */
+  @media (prefers-reduced-motion: no-preference) {
+    .btn--pulse {
+      animation: btn-pulse 3.2s var(--ease-in-out-soft) infinite;
+    }
+  }
+
+  @keyframes btn-pulse {
+    0%,
+    100% {
+      box-shadow: 0 10px 30px -12px rgba(239, 75, 34, 0.55);
+    }
+    50% {
+      box-shadow: 0 16px 48px -10px rgba(239, 75, 34, 0.9);
+    }
+  }
+
+  .btn--sm {
+    min-height: 2.75rem;
+    padding: 0.6rem 1.15rem;
+    font-size: 0.6875rem;
+  }
+
+  /* ---------- Links, cards, frames ---------- */
+
+  .link-underline {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding-block: 0.15rem;
+  }
+
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s var(--ease-out-expo);
+  }
+
+  @media (hover: hover) {
+    .link-underline:hover::after,
+    .link-underline:focus-visible::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+
+  .card {
+    position: relative;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    background: var(--surface-raised);
+    backdrop-filter: blur(14px);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0);
+    transition:
+      transform 0.5s var(--ease-out-expo),
+      border-color 0.55s var(--ease-out-expo),
+      box-shadow 0.55s var(--ease-out-expo);
+  }
+
+  /* Glass edge highlight — a hairline of light along the top, on top of
+     everything so it never gets buried by content padding. */
+  .card::before {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--fg), transparent 55%),
+      transparent
+    );
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Cursor-tracked spotlight, positioned by `--spot-x`/`--spot-y` (see
+     `useSpotlight`). Sits behind the content, only visible on hover. */
+  .card::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      480px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      color-mix(in oklab, var(--accent), transparent 82%),
+      transparent 62%
+    );
+    transition: opacity 0.5s var(--ease-out-expo);
+  }
+
+  .card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (hover: hover) {
+    .card:hover {
+      /* `--tilt-x`/`--tilt-y` are written by `useSpotlight` on pointermove. */
+      transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg))
+        translateY(-8px);
+      border-color: color-mix(in oklab, var(--accent), transparent 55%);
+      box-shadow: var(--shadow-card-hover);
+    }
+
+    .card:hover::after {
+      opacity: 1;
+    }
+  }
+
+  .frame {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: var(--radius-card);
+    background: #0a0a0a;
+    outline: 1px solid color-mix(in oklab, var(--fg), transparent 82%);
+    outline-offset: -1px;
+  }
+
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 42s linear infinite;
+  }
+
+  @media (hover: hover) {
+    .marquee:hover {
+      animation-play-state: paused;
+    }
+  }
+
+  .skip-link {
+    position: fixed;
+    top: calc(var(--safe-t) + 0.5rem);
+    left: 50%;
+    translate: -50% -300%;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-ink);
+    color: var(--color-cream);
+    transition: translate 0.3s var(--ease-out-expo);
+  }
+
+  .skip-link:focus-visible {
+    translate: -50% 0;
+  }
+}
+
+/* Phone-first density: keep the cinematic layout, but don't waste vertical
+   space, don't crop photos for parallax, and skip GPU-heavy ambience. */
+@media (max-width: 639.98px) {
+  .font-display {
+    line-height: 0.96;
+    letter-spacing: -0.028em;
+  }
+
+  .btn {
+    white-space: normal;
+    line-height: 1.2;
+    letter-spacing: 0.11em;
+    text-wrap: balance;
+    min-height: 2.85rem;
+    padding: 0.8rem 1.2rem;
+  }
+
+  .card {
+    backdrop-filter: none;
+  }
+
+  .grain {
+    opacity: 0.06;
+  }
+}
+
+@media (hover: none) {
+  .sky__sun,
+  .sky__glow-a,
+  .sky__glow-b,
+  .btn--pulse {
+    animation: none;
+  }
+
+  .sky__glow-a,
+  .sky__glow-b {
+    filter: blur(42px);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hover-parallax {
+    inset: -1rem;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .marquee {
+    animation: none;
+    transform: none;
+  }
+
+  .grain {
+    display: none;
+  }
+}
