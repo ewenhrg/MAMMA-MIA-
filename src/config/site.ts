@@ -30,11 +30,11 @@ export const siteConfig = {
 
   contact: {
     whatsappUrl:
-      env(process.env.NEXT_PUBLIC_WHATSAPP_URL) || "https://wa.me/201208185564",
+      env(process.env.NEXT_PUBLIC_WHATSAPP_URL) || "https://wa.me/201208185554",
     googleMapsUrl: env(process.env.NEXT_PUBLIC_GOOGLE_MAPS_URL),
     email: env(process.env.NEXT_PUBLIC_CONTACT_EMAIL),
-    phone: env(process.env.NEXT_PUBLIC_CONTACT_PHONE) || "+201208185564",
-    phoneDisplay: "+20 120 818 5564",
+    phone: env(process.env.NEXT_PUBLIC_CONTACT_PHONE) || "+201208185554",
+    phoneDisplay: "+20 120 818 5554",
   },
 
   logo: {

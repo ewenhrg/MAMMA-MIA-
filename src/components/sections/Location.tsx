@@ -13,7 +13,7 @@ import { hasReservationLink, reservationHref, siteConfig, whatsappHref } from "@
  * Contact and location.
  *
  * The exact address, coordinates and hours were not provided, so nothing is
- * guessed. Phone / WhatsApp is wired to +201208185564. Other fields stay
+ * guessed. Phone / WhatsApp is wired to +201208185554. Other fields stay
  * configurable and the UI hides them until `NEXT_PUBLIC_*` values are filled in.
  */
 export function Location() {
