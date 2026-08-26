@@ -51,10 +51,10 @@ export const media = {
   },
   drinks: {
     scene: "drinks",
-    src: "/photos/drinks-01.png",
+    src: "/photos/drinks-guest-01.jpg",
     alt: {
-      en: "A cocktail by the beach at sunset",
-      fr: "Un cocktail au bord de la plage au coucher du soleil",
+      en: "Guest enjoying a cocktail on the night terrace",
+      fr: "Invitée savourant un cocktail sur la terrasse le soir",
     },
   },
   shisha: {
@@ -84,10 +84,10 @@ export const media = {
   },
   sports: {
     scene: "sports",
-    src: "/photos/sports-01.png",
+    src: "/photos/sports-02.jpg",
     alt: {
-      en: "Football on a large screen at Mamma Mia",
-      fr: "Match de football sur grand écran chez Mamma Mia",
+      en: "Live football on a large screen at Mamma Mia",
+      fr: "Football en direct sur grand écran chez Mamma Mia",
     },
   },
   location: { scene: "night" },
@@ -130,6 +130,36 @@ export const gallery: GalleryItem[] = [
   },
   {
     id: "g2",
+    category: "drinks",
+    scene: "drinks",
+    src: "/photos/drinks-02.jpg",
+    alt: {
+      en: "Layered cocktail with ice and fruit garnish",
+      fr: "Cocktail en couches, glaçons et fruits",
+    },
+  },
+  {
+    id: "g2b",
+    category: "drinks",
+    scene: "drinks",
+    src: "/photos/drinks-03.jpg",
+    alt: {
+      en: "Fresh cocktail with lime and grapes",
+      fr: "Cocktail frais citron vert et raisins",
+    },
+  },
+  {
+    id: "g2c",
+    category: "drinks",
+    scene: "drinks",
+    src: "/photos/drinks-guest-01.jpg",
+    alt: {
+      en: "Guest enjoying a berry cocktail at night",
+      fr: "Invitée savourant un cocktail aux fruits rouges le soir",
+    },
+  },
+  {
+    id: "g2d",
     category: "drinks",
     scene: "drinks",
     src: "/photos/drinks-01.png",
@@ -221,13 +251,53 @@ export const gallery: GalleryItem[] = [
     },
   },
   {
+    id: "g10b",
+    category: "lounge",
+    scene: "shisha",
+    src: "/photos/shisha-guest-01.jpg",
+    alt: {
+      en: "Guest with shisha on the night terrace",
+      fr: "Invitée et chicha sur la terrasse le soir",
+    },
+  },
+  {
+    id: "g10c",
+    category: "lounge",
+    scene: "shisha",
+    src: "/photos/shisha-guest-02.jpg",
+    alt: {
+      en: "Shisha evening under the pink lights",
+      fr: "Soirée chicha sous les lumières roses",
+    },
+  },
+  {
     id: "g11",
+    category: "events",
+    scene: "sports",
+    src: "/photos/sports-02.jpg",
+    alt: {
+      en: "Live football on a large screen at Mamma Mia",
+      fr: "Football en direct sur grand écran chez Mamma Mia",
+    },
+  },
+  {
+    id: "g11b",
     category: "events",
     scene: "sports",
     src: "/photos/sports-01.png",
     alt: {
       en: "Football on a large screen at Mamma Mia",
       fr: "Match de football sur grand écran chez Mamma Mia",
+    },
+  },
+  {
+    id: "g12",
+    category: "nights",
+    scene: "night",
+    src: "/photos/night-03.jpg",
+    alt: {
+      en: "A couple enjoying a night out at Mamma Mia",
+      fr: "Un couple qui profite d'une soirée chez Mamma Mia",
     },
   },
 ];
