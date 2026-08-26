@@ -59,10 +59,10 @@ export const media = {
   },
   shisha: {
     scene: "shisha",
-    src: "/photos/shisha-01.png",
+    src: "/photos/shisha-guest-02.jpg",
     alt: {
-      en: "Shisha on a reserved table at Mamma Mia",
-      fr: "Chicha sur une table réservée chez Mamma Mia",
+      en: "Guest enjoying shisha on the night terrace at Mamma Mia",
+      fr: "Invitée savourant une chicha sur la terrasse le soir chez Mamma Mia",
     },
   },
   sunset: { scene: "sunset" },
