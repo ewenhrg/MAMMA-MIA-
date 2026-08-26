@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Inter, Instrument_Serif } from "next/font/google";
 import { notFound } from "next/navigation";
+import { Analytics } from "@vercel/analytics/next";
 import { CustomCursor } from "@/components/chrome/CustomCursor";
 import { JourneyRail } from "@/components/chrome/JourneyRail";
 import { Navbar } from "@/components/chrome/Navbar";
@@ -152,6 +153,7 @@ export default async function LocaleLayout({
             <main id="main">{children}</main>
 
             <MobileActionBar />
+            <Analytics />
           </JourneyProvider>
         </LocaleProvider>
       </body>
