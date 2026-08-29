@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useLocale } from "@/components/providers/LocaleProvider";
 import { Cta } from "@/components/ui/Cta";
 import { ArrowUpRight, Instagram, WhatsApp } from "@/components/ui/Icons";
@@ -22,6 +23,7 @@ const sceneForCategory = {
 function EventCard({ event, index }: { event: VenueEvent; index: number }) {
   const { t, lang } = useLocale();
   const spotlight = useSpotlight();
+  const remote = Boolean(event.image?.startsWith("http"));
 
   return (
     <Reveal delay={index * 0.07} scale={0.96} as="li">
@@ -32,6 +34,7 @@ function EventCard({ event, index }: { event: VenueEvent; index: number }) {
               src={event.image}
               alt=""
               fill
+              unoptimized={remote}
               sizes="(max-width: 768px) 100vw, 33vw"
               className="object-cover"
             />
@@ -78,13 +81,31 @@ function EventCard({ event, index }: { event: VenueEvent; index: number }) {
 }
 
 /**
- * Events are driven entirely by `src/config/events.ts`. Nothing is invented: with
- * no confirmed programme the section shows a designed empty state pointing at
- * Instagram rather than placeholder listings.
+ * Events come from `/api/events` (admin-managed). Empty state when none are live.
  */
 export function Events() {
   const { t } = useLocale();
-  const list = upcomingEvents();
+  const [list, setList] = useState<VenueEvent[]>([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const response = await fetch("/api/events", { cache: "no-store" });
+        if (!response.ok) throw new Error("fetch failed");
+        const data = (await response.json()) as { events: VenueEvent[] };
+        if (!cancelled) setList(upcomingEvents(data.events ?? []));
+      } catch {
+        if (!cancelled) setList([]);
+      } finally {
+        if (!cancelled) setLoaded(true);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <section id="events" className="section">
@@ -96,7 +117,9 @@ export function Events() {
           size="h1"
         />
 
-        {list.length > 0 ? (
+        {!loaded ? (
+          <p className="t-body mt-12 text-[color:var(--fg-faint)]">…</p>
+        ) : list.length > 0 ? (
           <ul className="mt-12 grid gap-6 md:grid-cols-2 lg:mt-16 lg:grid-cols-3">
             {list.map((event, index) => (
               <EventCard key={event.id} event={event} index={index} />

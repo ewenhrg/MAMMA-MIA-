@@ -33,6 +33,14 @@ const resolveLocale = (request: NextRequest) => {
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
+  if (
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/api") ||
+    pathname.startsWith("/uploads")
+  ) {
+    return NextResponse.next();
+  }
+
   if (hasLocalePrefix(pathname)) {
     const locale = pathname.split("/")[1];
     const response = NextResponse.next();
@@ -54,5 +62,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|brand|photos|favicon.ico|.*\\.[\\w]+$).*)"],
+  matcher: ["/((?!_next|api|admin|uploads|brand|photos|favicon.ico|.*\\.[\\w]+$).*)"],
 };

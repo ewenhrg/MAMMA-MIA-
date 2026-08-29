@@ -13,3 +13,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .shots
+data/events.json
+public/uploads/events/*
+!public/uploads/events/.gitkeep
