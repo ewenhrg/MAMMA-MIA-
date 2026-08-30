@@ -12,10 +12,22 @@ const categoryLabel: Record<EventCategory, string> = {
   special: "Spécial",
 };
 
+type StorageMode = "local" | "blob" | "unavailable";
+
+async function readApiJson<T>(response: Response): Promise<T | null> {
+  const text = await response.text();
+  if (!text.trim()) return null;
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    return null;
+  }
+}
+
 export default function AdminPage() {
   const [ready, setReady] = useState(false);
   const [authed, setAuthed] = useState(false);
-  const [storage, setStorage] = useState<"local" | "blob">("local");
+  const [storage, setStorage] = useState<StorageMode>("local");
   const [events, setEvents] = useState<VenueEvent[]>([]);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -37,14 +49,15 @@ export default function AdminPage() {
       setAuthed(false);
       return;
     }
-    if (!response.ok) {
-      setError("Impossible de charger les événements.");
+    const data = await readApiJson<{
+      events: VenueEvent[];
+      storage: StorageMode;
+      error?: string;
+    }>(response);
+    if (!response.ok || !data) {
+      setError(data?.error || "Impossible de charger les événements.");
       return;
     }
-    const data = (await response.json()) as {
-      events: VenueEvent[];
-      storage: "local" | "blob";
-    };
     setEvents(data.events);
     setStorage(data.storage);
     setAuthed(true);
@@ -53,7 +66,9 @@ export default function AdminPage() {
   useEffect(() => {
     (async () => {
       const me = await fetch("/api/admin/me", { cache: "no-store" });
-      const data = (await me.json()) as { authenticated: boolean };
+      const data = (await readApiJson<{ authenticated: boolean }>(me)) ?? {
+        authenticated: false,
+      };
       if (data.authenticated) {
         await loadEvents();
       }
@@ -106,12 +121,17 @@ export default function AdminPage() {
         method: "POST",
         body: form,
       });
-      const data = (await response.json()) as {
+      const data = await readApiJson<{
         error?: string;
         events?: VenueEvent[];
-      };
-      if (!response.ok) {
-        setError(data.error || "Échec de l'ajout.");
+      }>(response);
+      if (!response.ok || !data) {
+        setError(
+          data?.error ||
+            (response.ok
+              ? "Réponse serveur invalide."
+              : "Échec de l'ajout. Vérifiez la taille de l'image (max 4 Mo)."),
+        );
         return;
       }
       setEvents(data.events ?? []);
@@ -135,12 +155,12 @@ export default function AdminPage() {
       const response = await fetch(`/api/admin/events?id=${encodeURIComponent(id)}`, {
         method: "DELETE",
       });
-      const data = (await response.json()) as {
+      const data = await readApiJson<{
         error?: string;
         events?: VenueEvent[];
-      };
-      if (!response.ok) {
-        setError(data.error || "Suppression impossible.");
+      }>(response);
+      if (!response.ok || !data) {
+        setError(data?.error || "Suppression impossible.");
         return;
       }
       setEvents(data.events ?? []);
@@ -221,7 +241,14 @@ export default function AdminPage() {
         </button>
       </div>
 
-      {storage === "local" ? (
+      {storage === "unavailable" ? (
+        <p className="mt-6 rounded-2xl border border-sunset/40 bg-sunset/10 px-4 py-3 text-sm text-cream/90">
+          Le stockage n&apos;est pas configuré sur Vercel. Créez un Blob Store,
+          ajoutez la variable{" "}
+          <code className="text-gold">BLOB_READ_WRITE_TOKEN</code>, puis
+          redéployez — sans cela, l&apos;ajout d&apos;événements échouera.
+        </p>
+      ) : storage === "local" ? (
         <p className="mt-6 rounded-2xl border border-gold/30 bg-gold/10 px-4 py-3 text-sm text-cream/80">
           Stockage local actif. Sur Vercel, ajoutez{" "}
           <code className="text-gold">BLOB_READ_WRITE_TOKEN</code> (Vercel Blob)

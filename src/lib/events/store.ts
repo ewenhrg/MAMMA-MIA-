@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { put, list, del } from "@vercel/blob";
+import { put, list, del, head } from "@vercel/blob";
 import { isEventExpired, type VenueEvent } from "./types";
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -9,6 +9,22 @@ const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "events");
 const BLOB_JSON = "events/events.json";
 
 const hasBlob = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim());
+const isVercel = () => Boolean(process.env.VERCEL);
+
+export class EventsStorageError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "EventsStorageError";
+  }
+}
+
+const assertStorageReady = () => {
+  if (isVercel() && !hasBlob()) {
+    throw new EventsStorageError(
+      "Sur Vercel, ajoutez BLOB_READ_WRITE_TOKEN (Storage → Blob) pour enregistrer les événements.",
+    );
+  }
+};
 
 const ensureLocalDirs = async () => {
   await fs.mkdir(DATA_DIR, { recursive: true });
@@ -26,21 +42,34 @@ const readLocal = async (): Promise<VenueEvent[]> => {
 };
 
 const writeLocal = async (events: VenueEvent[]) => {
+  assertStorageReady();
   await ensureLocalDirs();
   await fs.writeFile(DATA_FILE, JSON.stringify(events, null, 2), "utf8");
 };
 
 const readBlob = async (): Promise<VenueEvent[]> => {
-  const listed = await list({ prefix: BLOB_JSON });
-  const file = listed.blobs.find((blob) => blob.pathname === BLOB_JSON);
-  if (!file) return [];
-  const response = await fetch(file.url, { cache: "no-store" });
-  if (!response.ok) return [];
-  const parsed = (await response.json()) as VenueEvent[];
-  return Array.isArray(parsed) ? parsed : [];
+  try {
+    const meta = await head(BLOB_JSON);
+    if (!meta?.url) return [];
+    const response = await fetch(meta.url, { cache: "no-store" });
+    if (!response.ok) return [];
+    const parsed = (await response.json()) as VenueEvent[];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    const listed = await list({ prefix: "events/" });
+    const file = listed.blobs.find(
+      (blob) => blob.pathname === BLOB_JSON || blob.pathname.endsWith("events.json"),
+    );
+    if (!file?.url) return [];
+    const response = await fetch(file.url, { cache: "no-store" });
+    if (!response.ok) return [];
+    const parsed = (await response.json()) as VenueEvent[];
+    return Array.isArray(parsed) ? parsed : [];
+  }
 };
 
 const writeBlob = async (events: VenueEvent[]) => {
+  assertStorageReady();
   await put(BLOB_JSON, JSON.stringify(events, null, 2), {
     access: "public",
     contentType: "application/json",
@@ -49,12 +78,13 @@ const writeBlob = async (events: VenueEvent[]) => {
   });
 };
 
-export const storageMode = () => (hasBlob() ? "blob" : "local");
+export const storageMode = () => (hasBlob() ? "blob" : isVercel() ? "unavailable" : "local");
 
 export const pruneEvents = (events: VenueEvent[]) =>
   events.filter((event) => !isEventExpired(event));
 
 export const listEvents = async (): Promise<VenueEvent[]> => {
+  assertStorageReady();
   const events = hasBlob() ? await readBlob() : await readLocal();
   const kept = pruneEvents(events).sort((a, b) => a.date.localeCompare(b.date));
   if (kept.length !== events.length) {
@@ -84,6 +114,7 @@ export const saveEventImage = async (
   id: string,
   file: File,
 ): Promise<string> => {
+  assertStorageReady();
   const bytes = Buffer.from(await file.arrayBuffer());
   const ext =
     file.type === "image/png"
