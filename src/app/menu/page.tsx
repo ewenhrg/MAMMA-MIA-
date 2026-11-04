@@ -1,5 +1,6 @@
-import { MenuView } from "@/components/menu/MenuView";
+import { redirect } from "next/navigation";
 
+/** QR lands on /menu and opens the printable PDF menu. */
 export default function MenuPage() {
-  return <MenuView />;
+  redirect("/menu.pdf");
 }

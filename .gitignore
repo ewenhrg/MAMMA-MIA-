@@ -16,3 +16,5 @@ next-env.d.ts
 data/events.json
 public/uploads/events/*
 !public/uploads/events/.gitkeep
+
+.vercel

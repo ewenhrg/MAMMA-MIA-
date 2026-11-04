@@ -11,7 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
 const outPng = join(root, "public", "menu-qr.png");
 const outUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://mammamiahrg.com";
-const menuUrl = `${outUrl}/menu`;
+const menuUrl = `${outUrl}/menu.pdf`;
 
 mkdirSync(dirname(outPng), { recursive: true });
 
