@@ -6,7 +6,6 @@ import { siteConfig } from "@/config/site";
 import { menuSections, type MenuItem } from "@/data/menu";
 
 const STORAGE_KEY = "mammamia-order-v1";
-const TAX_RATE = 0.14;
 
 type Cart = Record<string, number>;
 type View = "menu" | "order" | "waiter";
@@ -96,9 +95,6 @@ export function OrderMenu() {
     .map(([id, qty]) => ({ item: index.get(id), qty }))
     .filter((line): line is { item: IndexedItem; qty: number } => Boolean(line.item));
   const count = lines.reduce((sum, l) => sum + l.qty, 0);
-  const subtotal = lines.reduce((sum, l) => sum + l.qty * l.item.price, 0);
-  const tax = Math.round(subtotal * TAX_RATE);
-  const total = subtotal + tax;
 
   const setQty = (id: string, qty: number) =>
     setCart((prev) => {
@@ -267,7 +263,7 @@ export function OrderMenu() {
               </span>
               <span className="font-semibold">View my order</span>
             </span>
-            <span className="font-semibold">{formatEgp(subtotal)}</span>
+            <span aria-hidden className="text-xl leading-none">→</span>
           </button>
         </div>
       ) : null}
@@ -299,7 +295,9 @@ export function OrderMenu() {
                       <div className="min-w-0 flex-1">
                         <p className="font-medium leading-snug">{item.name}</p>
                         <p className="text-xs text-black/50">{item.category}</p>
-                        <p className="mt-1 text-sm font-semibold">{formatEgp(item.price * qty)}</p>
+                        <p className="mt-1 text-sm font-semibold text-[#c2380f]">
+                          {formatEgp(item.price)}
+                        </p>
                       </div>
                       <Stepper
                         qty={qty}
@@ -320,8 +318,6 @@ export function OrderMenu() {
                     className="mt-2 w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-base outline-none focus:border-[#ef4b22]"
                   />
                 </label>
-
-                <Totals subtotal={subtotal} tax={tax} total={total} />
               </>
             )}
           </div>
@@ -370,14 +366,10 @@ export function OrderMenu() {
                     <p className="text-xl font-semibold leading-tight">{item.name}</p>
                     <p className="text-sm text-black/55">{item.category}</p>
                   </div>
-                  <p className="text-lg font-semibold tabular-nums">
-                    {(item.price * qty).toLocaleString("en-US")}
-                  </p>
+                  <p className="text-lg font-semibold tabular-nums">{formatEgp(item.price)}</p>
                 </li>
               ))}
             </ul>
-
-            <Totals subtotal={subtotal} tax={tax} total={total} large />
 
             <div className="mt-8 grid grid-cols-2 gap-3">
               <button
@@ -431,38 +423,5 @@ function Stepper({
         +
       </button>
     </div>
-  );
-}
-
-function Totals({
-  subtotal,
-  tax,
-  total,
-  large = false,
-}: {
-  subtotal: number;
-  tax: number;
-  total: number;
-  large?: boolean;
-}) {
-  return (
-    <dl
-      className={`mt-5 space-y-1.5 rounded-2xl bg-black/[0.04] p-4 ${large ? "text-lg" : "text-sm"}`}
-    >
-      <div className="flex justify-between">
-        <dt className="text-black/60">Subtotal</dt>
-        <dd className="tabular-nums">{formatEgp(subtotal)}</dd>
-      </div>
-      <div className="flex justify-between">
-        <dt className="text-black/60">Tax charge 14%</dt>
-        <dd className="tabular-nums">{formatEgp(tax)}</dd>
-      </div>
-      <div
-        className={`flex justify-between border-t border-black/10 pt-2 font-bold ${large ? "text-2xl" : "text-base"}`}
-      >
-        <dt>Total</dt>
-        <dd className="tabular-nums">{formatEgp(total)}</dd>
-      </div>
-    </dl>
   );
 }
