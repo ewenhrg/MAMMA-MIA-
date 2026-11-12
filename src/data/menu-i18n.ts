@@ -84,6 +84,9 @@ export type MenuUi = {
   remove: string;
   language: string;
   currency: string;
+  welcome: string;
+  plates: string;
+  desserts: string;
 };
 
 const russianItems = (n: number) => {
@@ -127,6 +130,9 @@ export const MENU_UI: Record<MenuLang, MenuUi> = {
     remove: "Remove one",
     language: "Language",
     currency: "EGP",
+    welcome: "Welcome",
+    plates: "Plates",
+    desserts: "Desserts",
   },
   fr: {
     tagline: "Beach Club · Restaurant · Hurghada",
@@ -153,6 +159,9 @@ export const MENU_UI: Record<MenuLang, MenuUi> = {
     remove: "Retirer",
     language: "Langue",
     currency: "EGP",
+    welcome: "Bienvenue",
+    plates: "Plats",
+    desserts: "Desserts",
   },
   es: {
     tagline: "Beach Club · Restaurante · Hurghada",
@@ -179,6 +188,9 @@ export const MENU_UI: Record<MenuLang, MenuUi> = {
     remove: "Quitar",
     language: "Idioma",
     currency: "EGP",
+    welcome: "Bienvenido",
+    plates: "Platos",
+    desserts: "Postres",
   },
   de: {
     tagline: "Beach Club · Restaurant · Hurghada",
@@ -205,6 +217,9 @@ export const MENU_UI: Record<MenuLang, MenuUi> = {
     remove: "Entfernen",
     language: "Sprache",
     currency: "EGP",
+    welcome: "Willkommen",
+    plates: "Gerichte",
+    desserts: "Desserts",
   },
   ru: {
     tagline: "Beach Club · Ресторан · Хургада",
@@ -231,6 +246,9 @@ export const MENU_UI: Record<MenuLang, MenuUi> = {
     remove: "Убрать",
     language: "Язык",
     currency: "EGP",
+    welcome: "Добро пожаловать",
+    plates: "Блюда",
+    desserts: "Десерты",
   },
   ar: {
     tagline: "بيتش كلوب · مطعم · الغردقة",
@@ -257,6 +275,9 @@ export const MENU_UI: Record<MenuLang, MenuUi> = {
     remove: "شيل",
     language: "اللغة",
     currency: "ج.م",
+    welcome: "أهلاً بيك",
+    plates: "أطباق",
+    desserts: "حلويات",
   },
 };
 

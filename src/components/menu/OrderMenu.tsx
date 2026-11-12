@@ -45,6 +45,7 @@ export function OrderMenu() {
   const [orderTime, setOrderTime] = useState("");
   const [lang, setLang] = useState<MenuLang>("en");
   const [langSheetOpen, setLangSheetOpen] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
   const chipsRef = useRef<HTMLDivElement>(null);
 
   const ui = MENU_UI[lang];
@@ -155,6 +156,72 @@ export function OrderMenu() {
   };
 
   const currentLang = MENU_LANGS.find((l) => l.code === lang) ?? MENU_LANGS[0];
+
+  const enterMenu = (id: string, anchor?: string) => {
+    setShowWelcome(false);
+    switchSection(id);
+    if (anchor) {
+      window.setTimeout(() => document.getElementById(anchor)?.scrollIntoView(), 60);
+    }
+  };
+
+  if (showWelcome && view === "menu") {
+    return (
+      <div
+        dir={isRtl(lang) ? "rtl" : "ltr"}
+        lang={lang}
+        className="flex min-h-dvh flex-col bg-[#fbf6ec] px-6 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] text-[#1b1410]"
+      >
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={() => setLangSheetOpen(true)}
+            aria-label={ui.language}
+            className="flex items-center gap-1.5 rounded-full border border-black/15 bg-white px-3 py-1.5 text-[13px] font-semibold active:scale-95"
+          >
+            <span aria-hidden>🌐</span>
+            {currentLang.short}
+          </button>
+        </div>
+
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <Image
+            src={siteConfig.logo.src}
+            alt={siteConfig.shortName}
+            width={220}
+            height={220}
+            priority
+            className="h-44 w-44 rounded-full object-cover shadow-[0_20px_50px_-20px_rgba(27,20,16,0.5)]"
+          />
+          <h1 className="mt-6 font-[family-name:var(--font-display)] text-3xl font-semibold">
+            {siteConfig.shortName}
+          </h1>
+          <p className="mt-1 text-sm text-black/55">{ui.welcome}</p>
+
+          <div className="mt-10 flex w-full max-w-xs flex-col gap-3">
+            {(
+              [
+                ["food", ui.plates],
+                ["drinks", ui.drinks],
+                ["food", ui.desserts, "desserts"],
+              ] as const
+            ).map(([id, label, anchor]) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => enterMenu(id, anchor)}
+                className="rounded-2xl bg-[#1b1410] px-6 py-4 text-lg font-semibold text-white shadow-[0_10px_24px_-12px_rgba(27,20,16,0.8)] active:scale-[0.98]"
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {langSheetOpen ? <LanguageSheet lang={lang} onChoose={chooseLang} onClose={() => setLangSheetOpen(false)} /> : null}
+      </div>
+    );
+  }
 
   return (
     <div dir={isRtl(lang) ? "rtl" : "ltr"} lang={lang} className="min-h-dvh bg-[#fbf6ec] text-[#1b1410]">
@@ -474,41 +541,50 @@ export function OrderMenu() {
         </div>
       ) : null}
 
-      {langSheetOpen ? (
-        <div
-          className="fixed inset-0 z-[60] flex items-end bg-black/40"
-          onClick={() => setLangSheetOpen(false)}
-        >
-          <div
-            role="dialog"
-            aria-label={ui.language}
-            onClick={(e) => e.stopPropagation()}
-            className="mx-auto w-full max-w-2xl rounded-t-3xl bg-white px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3"
-          >
-            <div className="mx-auto mb-4 h-1.5 w-10 rounded-full bg-black/15" />
-            <p className="mb-3 px-1 text-sm font-semibold text-black/60">{ui.language}</p>
-            <ul className="grid grid-cols-2 gap-2">
-              {MENU_LANGS.map((l) => (
-                <li key={l.code}>
-                  <button
-                    type="button"
-                    onClick={() => chooseLang(l.code)}
-                    dir={isRtl(l.code) ? "rtl" : "ltr"}
-                    className={`flex w-full items-center justify-between rounded-2xl border px-4 py-3.5 text-start text-base font-semibold transition ${
-                      l.code === lang
-                        ? "border-[#ef4b22] bg-[#ef4b22]/10 text-[#c2380f]"
-                        : "border-black/10 bg-white"
-                    }`}
-                  >
-                    {l.label}
-                    {l.code === lang ? <span aria-hidden>✓</span> : null}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ) : null}
+      {langSheetOpen ? <LanguageSheet lang={lang} onChoose={chooseLang} onClose={() => setLangSheetOpen(false)} /> : null}
+    </div>
+  );
+}
+
+function LanguageSheet({
+  lang,
+  onChoose,
+  onClose,
+}: {
+  lang: MenuLang;
+  onChoose: (lang: MenuLang) => void;
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[60] flex items-end bg-black/40" onClick={onClose}>
+      <div
+        role="dialog"
+        aria-label={MENU_UI[lang].language}
+        onClick={(e) => e.stopPropagation()}
+        className="mx-auto w-full max-w-2xl rounded-t-3xl bg-white px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3"
+      >
+        <div className="mx-auto mb-4 h-1.5 w-10 rounded-full bg-black/15" />
+        <p className="mb-3 px-1 text-sm font-semibold text-black/60">{MENU_UI[lang].language}</p>
+        <ul className="grid grid-cols-2 gap-2">
+          {MENU_LANGS.map((l) => (
+            <li key={l.code}>
+              <button
+                type="button"
+                onClick={() => onChoose(l.code)}
+                dir={isRtl(l.code) ? "rtl" : "ltr"}
+                className={`flex w-full items-center justify-between rounded-2xl border px-4 py-3.5 text-start text-base font-semibold transition ${
+                  l.code === lang
+                    ? "border-[#ef4b22] bg-[#ef4b22]/10 text-[#c2380f]"
+                    : "border-black/10 bg-white"
+                }`}
+              >
+                {l.label}
+                {l.code === lang ? <span aria-hidden>✓</span> : null}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
