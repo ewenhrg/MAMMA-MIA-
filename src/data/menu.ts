@@ -36,7 +36,6 @@ export const menuSections: MenuSection[] = [
         id: "hot-coffee",
         title: "Hot Drinks — Coffee",
         items: [
-          { name: "Coffee", price: 85 },
           { name: "Turkish Coffee", price: 85 },
           { name: "French Coffee", price: 110 },
           { name: "Nutella / Hazelnut Coffee", price: 125 },

@@ -25,7 +25,7 @@ const instrument = Instrument_Serif({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#0c1622",
+  themeColor: "#fbf6ec",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -43,7 +43,7 @@ export default function MenuLayout({ children }: { children: ReactNode }) {
     <html
       lang="en"
       className={`${archivo.variable} ${inter.variable} ${instrument.variable}`}
-      data-mood="night"
+      data-mood="day"
     >
       <body className="min-h-dvh antialiased">{children}</body>
     </html>
