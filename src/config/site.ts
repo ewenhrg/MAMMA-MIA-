@@ -18,7 +18,7 @@ export const siteConfig = {
   location: "Hurghada, Egypt",
 
   /** Set NEXT_PUBLIC_SITE_URL in production for canonical + Open Graph URLs. */
-  url: env(process.env.NEXT_PUBLIC_SITE_URL) || "https://mammamiahurghada.com",
+  url: env(process.env.NEXT_PUBLIC_SITE_URL) || "https://mammamiahrg.com",
 
   social: {
     instagramHandle: "@mammamiahurghada",

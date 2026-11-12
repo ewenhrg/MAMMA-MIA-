@@ -10,6 +10,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "brand:logo": "node scripts/prepare-logo.mjs",
+    "menu:qr": "node scripts/generate-menu-qr.mjs",
     "qa:shots": "node scripts/shots.mjs",
     "qa:audit": "node scripts/diag.mjs"
   },

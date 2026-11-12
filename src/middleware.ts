@@ -36,6 +36,7 @@ export function middleware(request: NextRequest) {
   if (
     pathname.startsWith("/admin") ||
     pathname.startsWith("/api") ||
+    pathname.startsWith("/menu") ||
     pathname.startsWith("/uploads")
   ) {
     return NextResponse.next();
@@ -62,5 +63,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|admin|uploads|brand|photos|favicon.ico|.*\\.[\\w]+$).*)"],
+  matcher: ["/((?!_next|api|admin|menu|uploads|brand|photos|favicon.ico|.*\\.[\\w]+$).*)"],
 };
