@@ -89,6 +89,7 @@ export const menuSections: MenuSection[] = [
         items: [
           { name: "Small Water", price: 40 },
           { name: "Large Water", price: 60 },
+          { name: "Sparkling Water", price: 170 },
           { name: "Ice tea", price: 100 },
           { name: "Cola / Fanta / Pepsi / Sprite", price: 100 },
           { name: "Schweppes", price: 100 },

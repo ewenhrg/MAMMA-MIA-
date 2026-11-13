@@ -396,6 +396,7 @@ const TEXT: Record<string, Tr> = {
   // Soft drinks
   "Small Water": ["Petite eau", "Agua pequeña", "Wasser klein", "Вода малая", "مية صغيرة"],
   "Large Water": ["Grande eau", "Agua grande", "Wasser groß", "Вода большая", "مية كبيرة"],
+  "Sparkling Water": ["Eau pétillante", "Agua con gas", "Sprudelwasser", "Газированная вода", "مية غازية"],
   "Ice tea": ["Thé glacé", "Té helado", "Eistee", "Холодный чай", "آيس تي"],
   "Cola / Fanta / Pepsi / Sprite": "كولا / فانتا / بيبسي / سبرايت",
   Schweppes: "شويبس",
