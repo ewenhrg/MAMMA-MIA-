@@ -113,7 +113,7 @@ export const menuSections: MenuSection[] = [
           { name: "Peach", price: 130 },
           { name: "Lemon", price: 120 },
           { name: "Lemon Mint", price: 130 },
-          { name: "Avocado", price: 200 },
+          { name: "Avocado", price: 280 },
           { name: "Apple", price: 130 },
         ],
       },
